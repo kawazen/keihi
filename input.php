@@ -11,7 +11,7 @@ try {
 }
 
 # 値セット
-$stmt=$dbh -> prepare('INSERT INTO transport_expenses_details VALUES (?,?,?,?,?,?,?)');
+$stmt=$dbh->prepare("INSERT INTO transport_expenses_details(moving_date,origin,destination,round_trip,cost,created,modified) VALUES (?,?,?,?,?,?,?)");
 $stmt->bindParam(':moving_date', $_POST['moving_date'], PDO::PARAM_STR);
 $stmt->bindParam(':origin', $_POST['origin'], PDO::PARAM_STR);
 $stmt->bindParam(':destination', $_POST['destination'], PDO::PARAM_STR);
