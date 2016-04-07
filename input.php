@@ -12,13 +12,15 @@ try {
 
 # 値セット
 $stmt=$dbh->prepare("INSERT INTO transport_expenses_details(moving_date,origin,destination,round_trip,cost,created,modified) VALUES (?,?,?,?,?,?,?)");
+
 $stmt->bindParam(':moving_date', $_POST['moving_date'], PDO::PARAM_STR);
 $stmt->bindParam(':origin', $_POST['origin'], PDO::PARAM_STR);
 $stmt->bindParam(':destination', $_POST['destination'], PDO::PARAM_STR);
 $stmt->bindParam(':round_trip', $_POST['round_trip'], PDO::PARAM_INT);
 $stmt->bindParam(':cost', $_POST['cost'], PDO::PARAM_INT);
-$stmt->bindParam(':created', date('Y-m-d H:i:s', time()), PDO::PARAM_STR);
-$stmt->bindParam(':modified', date('Y-m-d H:i:s', time()), PDO::PARAM_STR);
+$now = date('Y-m-d H:i:s', time());
+$stmt->bindParam(':created', $now, PDO::PARAM_STR);
+$stmt->bindParam(':modified', $now, PDO::PARAM_STR);
 $stmt->execute();
 
 echo '保存しました。';
