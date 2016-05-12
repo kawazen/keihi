@@ -8,17 +8,14 @@
 <body>
 
 <?php
-echo '【交通費精算システム】一覧</BR></BR>';
+# DBホスト接続
+require('dbconnect.php');
 
-try {
-    $dbh = new PDO('mysql:host=localhost;dbname=dbkeihi;charset=utf8mb4', 'root', 'root');
-} catch (PDOException $e) {
-    echo "Connect Error : ".$dbh->getMessage();
-    die();
-}
+echo '【交通費精算システム】一覧</BR>';
+echo '<p><a href="input.php">交通費入力</a></p>';
 
 echo '<table><tr><th>日付</th><th>出発地</th><th>目的地</th><th>往復/片道</th><th>金額</th><th>作成日時</th><th>更新日時</th>'.PHP_EOL;
-foreach( $dbh->query('SELECT * FROM transport_expenses_details') as $row) {
+foreach( $dbh->query('SELECT * FROM transport_expenses_details ORDER BY moving_date DESC') as $row) {
     echo '<tr><td>'.htmlspecialchars($row['moving_date']).'</td>';	//日付
     echo '<td>'.htmlspecialchars($row['origin']).'</td>';	//出発地
     echo '<td>'.htmlspecialchars($row['destination']).'</td>';	//目的地
@@ -29,11 +26,13 @@ foreach( $dbh->query('SELECT * FROM transport_expenses_details') as $row) {
     };//1:往復 0:片道
     echo '<td>'.htmlspecialchars($row['cost']).'円</td>';	//金額
     echo '<td>'.htmlspecialchars($row['created']).'</td>';	//作成日時
-    echo '<td>'.htmlspecialchars($row['modified']).'</td></tr>'.PHP_EOL;	//更新日時
+    echo '<td>'.htmlspecialchars($row['modified']).'</td>';	//更新日時
+    echo '<td>'.'<a href=update.php?id='.htmlspecialchars($row['id']).'>編集</a></td>';    //更新日時
+    echo '<td>'.'<a href=delete.php?id='.htmlspecialchars($row['id']).'>削除</a></td></tr>'.PHP_EOL;    //更新日時
+
 }
 
 ?>
-
 
 </body>
 </html>
