@@ -8,6 +8,16 @@
 <body>
 
 <?php
+session_start();
+if(isset($_SESSION['keihi_del'])){
+    echo('交通費を削除しました。</BR>');
+    unset($_SESSION['keihi_del']);
+}elseif(isset($_SESSION['keihi_update'])){
+    echo('交通費を更新しました。</BR>');
+    unset($_SESSION['keihi_update']);
+}
+
+
 # DBホスト接続
 require('dbconnect.php');
 
@@ -28,8 +38,8 @@ foreach( $dbh->query('SELECT * FROM transport_expenses_details ORDER BY moving_d
     echo '<td>'.htmlspecialchars($row['created']).'</td>';	//作成日時
     echo '<td>'.htmlspecialchars($row['modified']).'</td>';	//更新日時
     echo '<td>'.'<a href=update.php?id='.htmlspecialchars($row['id']).'>編集</a></td>';    //更新日時
-    echo '<td>'.'<a href=delete.php?id='.htmlspecialchars($row['id']).'>削除</a></td></tr>'.PHP_EOL;    //更新日時
-
+    // echo '<td>'.'<a href=delete.php?id='.htmlspecialchars($row['id']).'>削除</a></td></tr>'.PHP_EOL;    //更新日時
+    echo "<td><form action='delete.php' method='post'><INPUT TYPE='hidden' NAME='id' VALUE='".htmlspecialchars($row['id'])."'><input type='submit' value='削除' /></form>".PHP_EOL;
 }
 
 ?>
