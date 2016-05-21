@@ -20,29 +20,29 @@ if(isset($_SESSION['keihi_del'])){
 
 # DBホスト接続
 require('dbconnect.php');
-
-echo '【交通費精算システム】一覧</BR>';
-echo '<p><a href="input.php">交通費入力</a></p>';
-
-echo '<table><tr><th>日付</th><th>出発地</th><th>目的地</th><th>往復/片道</th><th>金額</th><th>作成日時</th><th>更新日時</th>'.PHP_EOL;
-foreach( $dbh->query('SELECT * FROM transport_expenses_details ORDER BY moving_date DESC') as $row) {
-    echo '<tr><td>'.htmlspecialchars($row['moving_date']).'</td>';	//日付
-    echo '<td>'.htmlspecialchars($row['origin']).'</td>';	//出発地
-    echo '<td>'.htmlspecialchars($row['destination']).'</td>';	//目的地
-    if($row['round_trip'] == 0){
-    	echo '<td>片道</td>';
-    }else{
-    	echo '<td>往復</td>';
-    };//1:往復 0:片道
-    echo '<td>'.htmlspecialchars($row['cost']).'円</td>';	//金額
-    echo '<td>'.htmlspecialchars($row['created']).'</td>';	//作成日時
-    echo '<td>'.htmlspecialchars($row['modified']).'</td>';	//更新日時
-    echo '<td>'.'<a href=update.php?id='.htmlspecialchars($row['id']).'>編集</a></td>';    //更新日時
-    // echo '<td>'.'<a href=delete.php?id='.htmlspecialchars($row['id']).'>削除</a></td></tr>'.PHP_EOL;    //更新日時
-    echo "<td><form action='delete.php' method='post'><INPUT TYPE='hidden' NAME='id' VALUE='".htmlspecialchars($row['id'])."'><input type='submit' value='削除' /></form>".PHP_EOL;
-}
-
 ?>
 
+<p>【交通費精算システム】一覧　<a href="./">交通費一覧</a>　<a href="user.php">ユーザー一覧</a></p>
+<p><a href="input.php">交通費入力</a></p>
+
+<table><tr><th>日付</th><th>出発地</th><th>目的地</th><th>往復/片道</th><th>金額</th><th>作成日時</th><th>更新日時</th></BR>
+<?php
+foreach( $dbh->query('SELECT * FROM transport_expenses_details ORDER BY moving_date DESC') as $row) { ?>
+    <tr>
+        <td><?php echo htmlspecialchars($row['moving_date']);  //日付 ?></td>
+        <td><?php echo htmlspecialchars($row['origin']);       //出発地 ?></td>
+        <td><?php echo htmlspecialchars($row['destination']);  //目的地 ?></td>
+    <?php if($row['round_trip'] == 0){ ?>
+    	<td>片道</td>
+    <?php }else{ ?>
+    	<td>往復</td>
+    <?php }; //1:往復 0:片道 ?>
+        <td><?php echo htmlspecialchars($row['cost']);       //金額?>円</td>
+        <td><?php echo htmlspecialchars($row['created']);    //作成日時?></td>
+        <td><?php echo htmlspecialchars($row['modified']);   //更新日時?></td>
+        <td><a href=update.php?id=<?php echo htmlspecialchars($row['id']);    //更新日時?>>編集</a></td>
+        <td><form action='delete.php' method='post'><INPUT TYPE='hidden' NAME='id' VALUE='<?php echo htmlspecialchars($row['id']);?>'><input type='submit' value='削除' /></form>
+<?php }
+?>
 </body>
 </html>

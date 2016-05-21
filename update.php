@@ -47,10 +47,10 @@ $row = $data->fetch(PDO::FETCH_ASSOC);
 	<option value="0" <?php if($row['round_trip']=="0"){echo("selected");} ?>>片道</option>
 	<option value="1" <?php if($row['round_trip']=="1"){echo("selected");} ?>>往復</option>
 	</select></td></tr>
-　<tr><th>金額</th><td><input type="number" name="cost" value=<?php echo('"'.htmlspecialchars($row['cost']).'"'); ?> /></td></tr></table>
+　<tr><th>金額</th><td><input type="number" name="cost" value="<?php echo(htmlspecialchars($row['cost'])); ?>" /></td></tr></table>
   <br>
   <a href="./">戻る</a>
-　<input type="hidden" name="id" value=<?php echo('"'.htmlspecialchars($id).'"'); ?> />
+　<input type="hidden" name="id" value="<?php echo(htmlspecialchars($id)); ?>" />
   <input type="submit" value="保存" />
 </form>
 </body>
